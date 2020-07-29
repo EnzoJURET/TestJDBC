@@ -105,9 +105,10 @@ public class Main {
         }
     }
 
+    /* main() permettant de tester les méthodes de la classe Main */
     public static void main(String[] args) throws IOException {
 
-        /* Création d'un fichier parameter.properties
+        /* Création d'un fichier parameter.properties (utilisé une seul fois)
         Properties p = new Properties();
         try {
             OutputStream os = new FileOutputStream("parameter.properties");

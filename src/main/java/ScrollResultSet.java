@@ -7,6 +7,8 @@ import java.util.Properties;
 
 /* Classe permettant de tester les fonctionnalités du ResultSet modifiable */
 public class ScrollResultSet {
+
+    /* main() permettant de tester les méthodes de la classe ResultSet */
     public static void main(String[] args) throws IOException, SQLException {
         Properties p = new Properties();
         InputStream is = new FileInputStream("parameter.properties");
@@ -14,24 +16,31 @@ public class ScrollResultSet {
         Main bdd = new Main(p.getProperty("url"), p.getProperty("user"), p.getProperty("password"));
         ResultSet rs = bdd.SelectDB(bdd.ConnexionBDD());
 
-        /* Test du ResultSet Modifiable */
+        /* ---------- Appel des méthodes de la classe ResultSet non modifible ---------- */
+        /* Appel du premier record */
         rs.first();
         System.out.println("\nPREMIER RECORD...");
         System.out.println(rs.getInt(1) + " -> " + rs.getString("prenom") + " " + rs.getString("nom") + " né le " + rs.getString("dateNaissance"));
 
+        /* Appel du troisieme record */
         rs.absolute(3);
         System.out.println("\nTROISIEME RECORD...");
         System.out.println(rs.getInt(1) + " -> " + rs.getString("prenom") + " " + rs.getString("nom") + " né le " + rs.getString("dateNaissance"));
 
+        /* Appel du dernier record */
         rs.last();
         System.out.println("\nDERNIER RECORD...");
         System.out.println(rs.getInt(1) + " -> " + rs.getString("prenom") + " " + rs.getString("nom") + " né le " + rs.getString("dateNaissance"));
 
+        /* Appel de l'avant dernier record */
         rs.previous();
         rs.relative(-1);
         System.out.println("\nAVANT DERNIER RECORD RECORD...");
         System.out.println(rs.getInt(1) + " -> " + rs.getString("prenom") + " " + rs.getString("nom") + " né le " + rs.getString("dateNaissance"));
 
+        /* ---------- Appel des méthodes de la classe ResultSet modifible (notamment du CRUD) ---------- */
+
+        /* Create avec le ResultSet*/
         rs.absolute(5);
         rs.moveToInsertRow();
         rs.updateInt (1, 5);
@@ -44,6 +53,7 @@ public class ScrollResultSet {
         System.out.println("DERNIER RECORD...");
         System.out.println(rs.getInt(1) + " -> " + rs.getString("prenom") + " " + rs.getString("nom") + " né le " + rs.getString("dateNaissance"));
 
+        /* Update avec le ResultSet */
         rs.absolute(5);
         rs.updateString (3, "BloodShadow");
         rs.updateRow();
@@ -52,7 +62,7 @@ public class ScrollResultSet {
         System.out.println("DERNIER RECORD...");
         System.out.println(rs.getInt(1) + " -> " + rs.getString("prenom") + " " + rs.getString("nom") + " né le " + rs.getString("dateNaissance"));
 
-
+        /* Delete avec le ResultSet */
         rs.absolute(5);
         rs.deleteRow();
         System.out.println("\nSUPPRESSION DE LA PERSONNE KILIAN POITOU :");
